@@ -1,0 +1,26 @@
+{
+  "新メタバース企画.html": {
+    "headings_or_ids": 10,
+    "links": 86,
+    "local_links": [
+      "SecondLifeクライアント調査.html"
+    ],
+    "structure": "ok"
+  },
+  "SecondLifeクライアント調査.html": {
+    "headings_or_ids": 6,
+    "links": 32,
+    "local_links": [
+      "新メタバース企画.html"
+    ],
+    "structure": "ok"
+  },
+  "changes": {
+    "plan_replacements": 7,
+    "memo_replacements": 6,
+    "outside_replacements_unchanged": true,
+    "AGENTS_sha256": "0ea9b667ed698353312583e792739c08174c2d9a806a3055038a3961d6766cd9",
+    "browser_visual_check": false,
+    "engine_build": false
+  }
+}

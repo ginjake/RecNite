@@ -1,0 +1,130 @@
+--- 新メタバース企画.html before
++++ 新メタバース企画.html after
+@@ -14,7 +14,7 @@
+ </head>
+ <body>
+ <header id="top">
+-  <div class="meta">企画メモ・サービス比較　2026.10.15</div>
++  <div class="meta">企画メモ・サービス比較　初版 2026.10.15／基盤・互換方針更新 2026.11.11</div>
+   <h1>新メタバース企画</h1>
+   <p>Rec Roomの使いやすさと、Resoniteの自由な制作環境を組み合わせたVR SNS。</p>
+ </header>
+@@ -165,7 +165,7 @@
+       <div class="plus"><div class="perspective">ワールド制作者</div><h4>メリット</h4><ul>
+         <li>許可された土地で建築し、LSLで挙動を付け、外部制作のメッシュを取り込める。<a class="source" href="https://community.secondlife.com/knowledgebase/english/build-tools-r12/">建築 ↗</a><a class="source" href="https://community.secondlife.com/knowledgebase/english/scripting-object-behavior-r62/">LSL ↗</a></li>
+         <li>作品のコピー・編集・譲渡を分けて設定できる。</li>
+-        <li>ポリシーの範囲で第三者ビューアーを開発できる。<a class="source" href="https://go.secondlife.com/corporate/third-party-viewers">第三者ビューアー ↗</a></li>
++        <li>公開された公式ビューアーを元に、UI・描画・入力などを改変して第三者ビューアーを開発できる。Firestormも公式クライアントから派生している。<a class="source" href="https://github.com/secondlife/viewer">公式ソース ↗</a><a class="source" href="https://github.com/FirestormViewer/phoenix-firestorm">Firestorm ↗</a><a class="source" href="https://go.secondlife.com/corporate/third-party-viewers">接続ポリシー ↗</a></li>
+       </ul></div>
+       <div class="minus"><div class="perspective">ワールド制作者</div><h4>デメリット・制約</h4><ul>
+         <li>土地維持費やアップロード費が発生する。<a class="source" href="https://go.secondlife.com/land/private-pricing">土地料金 ↗</a></li>
+@@ -181,7 +181,13 @@
+   <h2><span class="n">03</span>企画内容</h2>
+   <div class="plan-grid">
+     <div class="box"><h3>基盤・対応機器</h3><ul>
+-      <li>Unityを使用。</li><li>SteamVR対応。</li><li>フルボディトラッキング対応。</li><li>揺れ物、カスタムシェーダーに対応。</li><li>VRMをインポート可能にする。</li><li>Quest 3単体にも将来対応。</li><li>英語・日本語から対応し、langファイルで言語を追加できるようにする。</li>
++      <li>描画エンジンは未決定。Unityは必須条件としない。</li><li>SteamVR対応。</li><li>フルボディトラッキング対応。</li><li>揺れ物、カスタムシェーダーに対応。</li><li>VRMをインポート可能にする。</li><li>Quest 3単体にも将来対応。</li><li>英語・日本語から対応し、langファイルで言語を追加できるようにする。</li>
++    </ul></div>
++    <div class="box wide"><h3>アバターの取り込み・シェーダー</h3><ul>
++      <li>VRMに加え、VRChat向けunitypackageからアバターを取り込む。</li>
++      <li>unitypackageの対応範囲は、揺れ物、マテリアル、表示／非表示、円形メニューからのオブジェクトON／OFF、シェイプキー変更とする。</li>
++      <li>lilToonは元のシェーダーとマテリアル設定を利用し、元の見た目を再現する。ユーザーが別のシェーダーへ手作業で置き換えることを前提にしない。</li>
++      <li>非対応端末やクライアント、描画失敗時にはフォールバックを使用する。</li>
+     </ul></div>
+     <div class="box"><h3>アバター・移動</h3><ul>
+       <li>アバター内にギミックを組み込める。</li><li>ユーザーのサイズを変更できる。</li><li>歩行、テレポート、フライ、ノークリップに対応。</li><li>ノークリップの移動速度を設定可能。</li><li>ワールドごとにジャンプ禁止、水泳、無重力、高速歩行などを設定できる。</li>
+@@ -205,7 +211,7 @@
+       <li>同じオブジェクトやギミックを、コードでも制作・編集できるようにする。</li>
+       <li>VR内の編集内容とコードを相互変換できるようにする。VR内で作った物をコードで編集し、コードで変更した物を再びVR内で編集できるようにしたい。</li>
+       <li>VR内のギミック編集は、Resoniteのようなノード形式に加え、ブロック形式も候補として検討する。</li>
+-      <li>Resoniteのインスペクターを参考にし、Unityで作った物との相互編集も目指す。</li>
++      <li>Resoniteのインスペクターを参考にし、Unityで作った物との相互編集も目指す。unitypackageでは上記のアバター機能を対応範囲とし、Animator全機能の互換を前提にはしない。</li>
+       <li>アイテムに作成者・編集者の履歴を保存する。</li>
+       <li>VR内編集やUnityの制作環境と、AIによるコード生成・編集をどう組み合わせるか検討する。</li>
+     </ul></div>
+@@ -214,6 +220,11 @@
+     </ul></div>
+     <div class="box"><h3>UI・交流・ストア</h3><ul>
+       <li>Rec Roomのワールド・アイテムブラウザを参考にする。</li><li>握手でフレンド、ハイタッチでグループ結成。</li><li>公開アイテムを検索し、無料・リング販売・オーブ販売から入手できる。</li><li>ギフト、欲しい物登録、公式アイテムを用意する。</li><li>公式ゲームの好成績やワールド制作コンペの優勝などで称号を付与し、表示できる。</li>
++    </ul></div>
++    <div class="box wide"><h3>将来の別クライアント</h3><ul>
++      <li>まず公式クライアントを開発し、後から別クライアントを作れる構造にする。</li>
++      <li>通信・アセット参照・ワールド状態・所持品の処理を、描画・UI・入力から分離する。</li>
++      <li>Second Lifeの派生ビューアー開発を参考にする。ソースの公開範囲やライセンスは未決定。</li>
+     </ul></div>
+     <div class="box"><h3>セッション</h3><ul>
+       <li>ワールドからセッションを起動する。</li><li>セッション動作はP2P、ログイン・メッセージはサーバー管理。</li><li>公開範囲はプライベート、フレンドプラス、フレンド、誰でも。</li>
+@@ -234,6 +245,8 @@
+ 
+ <section id="research">
+   <h2><span class="n">04</span>技術調査</h2>
++  <div class="research"><h3>Second Lifeの派生ビューアー開発</h3><p>Firestormなどは公開された公式ビューアーのソースを元に、UI・描画・入力などを変更して同じサービスへ接続する。公式ビューアーはC++・OpenGLを使い、AutobuildとCMakeでビルドする。本企画も、まず公式クライアントを作り、後から派生・別実装できるよう通信とデータ処理を描画から分ける。初期から複数エンジンや二本目のクライアントを実装する前提は置かない。</p><div class="refs"><a href="https://github.com/secondlife/viewer">Second Life公式ソース</a><a href="https://github.com/FirestormViewer/phoenix-firestorm">Firestorm公式ソース</a><a href="SecondLifeクライアント調査.html">調査詳細：E:\programing\新メタバース\SecondLifeクライアント調査.html</a></div></div>
++  <div class="research"><h3>lilToonの元シェーダー利用</h3><p>lilToonの元シェーダーと設定を使うため、採用する描画基盤に合わせて取り込み・展開・コンパイルを設計する。Unity以外では、言語変換だけでなくShaderLab、複数Pass、描画状態、Unity固有の照明や組み込み値を扱う互換層が必要になる。元ソースを保持して内部で変換・再コンパイルする方式は検証前であり、Godot標準でそのまま動くことやUnityのコンパイル済みShaderを無変更で読めることを確認したものではない。元シェーダー利用は要件として維持し、この互換処理の実現性をエンジン選定で比較する。</p><div class="refs"><a href="https://github.com/lilxyzw/lilToon/blob/master/Assets/lilToon/Editor/lilShaderContainerImporter.cs">lilToon公式Importer</a><a href="https://docs.unity3d.com/6000.0/Documentation/Manual/SL-Shader.html">Unity ShaderLab</a></div></div>
+   <div class="research"><h3>Unityのビルド時間と分割</h3><p>ビルド時間は規模、端末、対象プラットフォームで変わり、「Unityなら1時間」という固定値ではない。増分ビルドは変更された入力に関係する工程を再実行する。Assembly DefinitionはC#のコンパイル単位、Addressablesはアセットの読込・配信・更新単位を分ける仕組み。</p><div class="refs"><a href="https://unity.com/blog/engine-platform/accelerating-player-builds-with-incremental-build-pipeline">Unity：増分ビルド</a><a href="https://docs.unity.com/en-us/engine/6000.5/manual/scripting/compilation-and-code-reload/script-compilation/assembly-definition-files/assembly-definitions-intro">Unity：Assembly Definition</a></div></div>
+   <div class="research"><h3>P2Pと維持費</h3><p>参加者のPCをホストにする方式は専用サーバーの計算負荷を減らせる一方、ホストの回線・性能・離脱の影響を受ける。認証、メッセージ、保存、アセット配信、直接接続できない場合のRelay費用は残る。ホスト移行には接続先の変更だけでなく状態の引継ぎが必要。</p><div class="refs"><a href="https://mp-docs.dl.it.unity3d.com/netcode/2.1.1/learn/listen-server-host-architecture/">Unity：ホスト方式</a><a href="https://docs.unity.com/en-us/mps-sdk/session-host-migration">Unity：ホスト移行</a></div></div>
+   <div class="research"><h3>VRMとサービス側の機能</h3><p>VRMは人型アバターの形状、表情、視線、揺れ物などを共通化する形式。任意のUnityコンポーネントやスクリプトをそのまま運ぶ形式ではない。clusterのシェーダー・容量制限はサービス側の受入仕様であり、VRM形式だけが自由度を決めるわけではない。</p><div class="refs"><a href="https://vrm.dev/vrm/vrm_features/">VRM：特徴と内容</a></div></div>
+--- 企画書に満たないモノ.txt before
++++ 企画書に満たないモノ.txt after
+@@ -1,6 +1,6 @@
+ ﻿# 新しいVR SNSの企画メモ
+ 
+-整理・調査日：2026年10月15日
++整理・調査日：2026年10月15日／基盤・互換方針更新：2026年11月11日
+ 状態：企画段階。以下は実装済み仕様ではなく、原案・参考にした体験・検討事項の整理。
+ 
+ 詳しい比較、修正理由、公式資料へのリンク：
+@@ -88,11 +88,14 @@
+ 
+ ## 3. 基盤・アバター・移動の初期案
+ 
+-- Unityを使用する案。
++- 描画エンジンは未決定。Unityは必須条件としない。
+ - SteamVR対応。
+ - フルボディトラッキング対応。
+ - 揺れ物、カスタムシェーダーに対応したい。
+-- VRMをインポート可能にする。VRMの基本表現と、読込後に付ける独自ギミックを分ける。
++- VRMをインポート可能にする。VRMの基本表現と、読込後に付ける独自ギミックを分ける。
++- VRChat向けunitypackageからアバターを取り込み、揺れ物、マテリアル、表示／非表示、円形メニューからのオブジェクトON／OFF、シェイプキー変更に対応する。
++- lilToonは元のシェーダーとマテリアル設定を利用し、元の見た目を再現する。ユーザーが別のシェーダーへ手作業で置き換えることを前提にしない。
++- 非対応端末やクライアント、描画失敗時にはフォールバックを使用する。
+ - Quest 3単体対応は将来案。PC向け表現をそのまま再現できるとは約束しない。
+ - 英語・日本語から多言語対応を始め、langファイルで追加・修正しやすくする。
+ - ユーザーのサイズ変更とアバター内の多様なギミックを可能にしたい。
+@@ -102,6 +105,12 @@
+ - ホームは軽く必要最小限にし、「5万ポリゴン以下」を暫定目標として残す。読込時間、メモリ、シェーダー、物理、人数、実測フレーム時間も検証する。
+ - 重いアバター・アイテムを表示するかを利用者が選べるようにする。
+ 
++
++
++lilToonの元シェーダーを利用するための取り込み・展開・コンパイル方式は、採用する描画基盤に合わせて設計する。Unity以外では、ShaderLab、複数Pass、描画状態、Unity固有の照明や組み込み値を扱う互換層が必要になる。元ソースを保持して内部変換・再コンパイルする方式は検証前であり、Godot標準やUnityのコンパイル済みShaderとの無変更互換を確認したものではない。元シェーダー利用は要件として維持し、実現性をエンジン選定で比較する。
++出典：https://github.com/lilxyzw/lilToon/blob/master/Assets/lilToon/Editor/lilShaderContainerImporter.cs
++出典：https://docs.unity3d.com/6000.0/Documentation/Manual/SL-Shader.html
++
+ ## 4. ワールド・アイテム・制作
+ 
+ ### 掴む操作・物理挙動
+@@ -127,7 +136,7 @@
+ 
+ VR内の編集内容とコードを相互変換できるようにする。VR内で作った物をコードで編集し、コードで変更した物を再びVR内で編集できるようにしたい。
+ 
+-VR内のギミック編集は、Resoniteのようなノード形式に加え、ブロック形式も候補として検討する。Resoniteのインスペクターを参考にし、Unityで作った物との相互編集も目指す。
++VR内のギミック編集は、Resoniteのようなノード形式に加え、ブロック形式も候補として検討する。Resoniteのインスペクターを参考にし、Unityで作った物との相互編集も目指す。unitypackageでは上記のアバター機能を対応範囲とし、Animator全機能の互換を前提にはしない。
+ 
+ VR内編集やUnityの制作環境と、AIによるコード生成・編集をどう組み合わせるか検討する。
+ 
+@@ -165,7 +174,14 @@
+ 
+ ストアでは公開アイテムを検索し、無料／リング販売／オーブ販売を見分けられるようにする。試験公開、推薦、検索、内容タグ、性能情報を組み合わせ、作品の発見を助ける。
+ 
+-## 7. セッションと運営基盤
++## 7. セッションと運営基盤
++
++まず公式クライアントを開発し、後から別クライアントを作れる構造にする。通信・アセット参照・ワールド状態・所持品の処理を、描画・UI・入力から分離する。初期から複数エンジンや二本目のクライアントを実装する前提は置かない。ソースの公開範囲やライセンスは未決定。
++
++Second Lifeでは公開された公式ビューアーを元に、Firestormなどの派生ビューアーが作られている。公式ビューアーはC++・OpenGLを使い、AutobuildとCMakeでビルドする。この派生開発の仕組みを参考にする。
++出典：https://github.com/secondlife/viewer
++出典：https://github.com/FirestormViewer/phoenix-firestorm
++調査詳細：E:\programing\新メタバース\SecondLifeクライアント調査.html
+ 
+ ワールドからセッションを起動する。公開範囲は原案の「プライベート、フレンドプラス、フレンド、誰でも」を保持し、それぞれ誰が参加・招待できるかを定義する。
+ 

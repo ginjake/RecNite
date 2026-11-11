@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>新メタバース企画を既存サービスの仕様と照合する</title>
+<style>
+:root{--ink:#20343b;--muted:#5c6e75;--paper:#fff;--bg:#f3f6f6;--line:#d9e3e4;--accent:#116a67;--tint:#edf6f4;--warm:#8b4c28}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:20px}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Yu Gothic UI","Meiryo",sans-serif;font-size:16px;line-height:1.9}header,main,footer{max-width:1120px;margin:auto}header{padding:48px 48px 26px}.eyebrow{color:var(--accent);font-size:13px;letter-spacing:.12em}h1{font-size:clamp(25px,3.6vw,36px);line-height:1.5;margin:10px 0 20px}nav{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px}nav a{text-decoration:none}main{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:28px 48px 42px}p{margin:0 0 18px}main>p:first-child{color:var(--muted);font-size:13px}main>p:nth-child(2){font-size:17px;line-height:2}main>p:nth-child(3){font-size:13px;color:var(--muted)}h2{font-size:25px;line-height:1.5;margin:52px 0 20px;padding-bottom:12px;border-bottom:2px solid var(--accent)}h3{font-size:20px;line-height:1.6;margin:32px 0 16px;padding-top:24px;border-top:1px solid var(--line)}.priority{display:inline-block;vertical-align:middle;font-size:12px;line-height:1.6;padding:3px 9px;border-radius:5px;margin:0 12px 4px 0;white-space:nowrap}.high{background:#faeee6;color:var(--warm)}.medium{background:#eaf2f5;color:#365d6d}.proposal{background:var(--tint);padding:16px 20px;border-left:3px solid #65a49c;border-radius:0 5px 5px 0}.correction{background:#fff7e7;padding:15px 20px;border-left:3px solid #c6943d}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#064643}strong{font-weight:700}code{font-family:Consolas,"Yu Gothic UI",monospace;font-size:.92em;overflow-wrap:anywhere}.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:7px;margin:20px 0 24px}table{border-collapse:collapse;width:100%;min-width:740px;font-size:14px;line-height:1.8}th,td{padding:14px 16px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#eef3f3}td:first-child{font-weight:650;min-width:120px}tr:last-child td{border-bottom:0}footer{padding:22px 48px 40px;font-size:13px;color:var(--muted)}:focus-visible{outline:3px solid #3b9992;outline-offset:4px}::selection{background:#d3ebe7}
+@media(max-width:760px){body{font-size:15px}header{padding:26px 20px 22px}main{margin:0 10px;padding:20px 18px 30px}h2{font-size:21px;margin-top:36px}h3{font-size:18px}.proposal,.correction{padding:13px 15px}footer{padding:20px}.table-wrap{margin-inline:-4px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{body{background:white;color:#111;font-size:10pt}header{padding:0 0 14px}main{border:0;border-radius:0;padding:0;max-width:none}h1{font-size:23pt}h2{font-size:16pt;margin-top:22px}h3{font-size:13pt;break-after:avoid}nav,footer{display:none}.table-wrap{overflow:visible}table{min-width:0;font-size:9pt}th,td{padding:7px}thead{display:table-header-group}tr{break-inside:avoid}.proposal,.correction{padding:10px 12px}a{color:inherit}}
+</style>
+</head>
+<body>
+<header id="top"><div class="eyebrow">企画レビュー・公式仕様との照合</div><h1>新メタバース企画を既存サービスの仕様と照合する</h1><nav aria-label="目次"><a href="#section-1">1. 実装前に解消したい十の論点</a><a href="#section-2">2. 四サービスから採り入れる点と、その限界</a><a href="#section-3">3. 保存済み企画と、会話で進んだ要件の差分</a><a href="#section-4">4. 次の判断を支える確認例</a><a href="#section-5">5. 調査と検証の範囲</a></nav></header>
+<main>
+<p>レビュー日：2026年11月11日</p>
+<p><strong>「その場で作る・持ち歩く・公開する・友人と使う」を一続きにする企画として、方向は明確です。実装に進む前に、アイテムの所有、変更の同期、他環境からの変換の境界を決める必要があります。</strong> Resoniteの共同制作、Rec Roomの作品発見と商品管理、VRChatのアバター表現、clusterの制作への入口は、それぞれ参考になります。現状の弱点は機能の不足より、異なる機能をつなぐ条件が未定義なことです。以下は要望を維持したレビューであり、修正案を決定事項にはしていません。</p>
+<p>対象：<code>E:\programing\新メタバース\新メタバース企画.html</code>、<code>E:\programing\新メタバース\企画書に満たないモノ.txt</code>、直近の会話。本文の「HTML行」は前者を指します。元の企画書は変更していません。</p>
+<h2 id="section-1">1. 実装前に解消したい十の論点</h2>
+<p>優先度「高」はデータ構造や権限の設計を左右する事項、「中」は対応範囲や品質基準を明文化する事項です。</p>
+<h3 id="point-1"><span class="priority high">優先度 高</span>描画分離と、サーバーで確定する処理を分ける</h3>
+<p><strong>対象：HTML 184行「Unityを使用」、219行「セッション動作はP2P」、独自クライアントについての会話。</strong> Unityは現在の確定事項ではありません。Resoniteは.NET 10のコアとUnity描画をIPC・共有メモリで分離し、独自レンダラーを作れる実装を公開しています。ただし、これは全クライアントの独立実装に必要な仕様公開や、全処理のサーバー移行と同義ではありません。(<a href="https://github.com/Yellow-Dog-Man/Renderite.Unity.Renderer">公式Renderite実装</a>)</p>
+<p class="proposal"><strong>修正案：</strong> 共通データ・通信・ギミック仕様を描画エンジンから分け、Godot／Unity等の選択は比較検証後に行う。描画API、同一端末内のプロセス、ネットワーク上の状態確定を別に記述する。利用者の掴む操作は手元ですぐ反応させ、共有状態は定めた担当が確定する。独自クライアントにも同じ権限判定を適用し、通信の版と対応機能を確認できる仕様を用意する。</p>
+<h3 id="point-2"><span class="priority high">優先度 高</span>アセット・商品・所持品・配置物を別に管理する</h3>
+<p><strong>対象：HTML 198行の参照共有、216行のストア案、最新のインベントリ定義。</strong> 同じモデルを参照していても、商品、購入者の所持権、消費残数、ワールド上の個体は同じではありません。Resoniteはハッシュで同一アセットを再利用し、端末別の派生版も扱います。Rec Roomの後期Room Inventory and Offersは、アイテムと販売条件を分けています。(<a href="https://wiki.resonite.com/Asset">ResoniteのAsset</a>、<a href="https://wiki.resonite.com/Asset_Variant">Asset Variant</a>、<a href="https://rec.net/creator/p/rooms-2.0-inventory-offers">Rec RoomのInventory and Offers</a>)</p>
+<p class="proposal"><strong>修正案：</strong> 原本は論理的に一つとし、商品ID・商品版・所持権と残数・配置ID・アセットIDを分離する。作者名、バージョン、ライセンス、注意事項、タグ、説明を公開要件として反映する。公開取り下げ、作者の退会、更新時に、入手済みの品と配置済みの品をどう扱うかを決める。共有アセットの削除条件と容量計上も必要です。これは利用者の購入品保全と、作者の更新作業の両方に関わります。</p>
+<h3 id="point-3"><span class="priority high">優先度 高</span>「消費／無限」と、消費を確定する時点を分ける</h3>
+<p><strong>対象：HTML 198行「出すと消費する編集不可」、通貨案227～231行。</strong> 最新の要望は「一度使ったら消える」であり、スポーン時の消費や編集禁止までは決まっていません。Rec Roomの後期InventoryではUseだけでは減算されず、Removeが必要です。旧Consumablesとも方式が違うため、単一のRec Room仕様として比較できません。(<a href="https://rec.net/creator/p/rooms-2.0-inventory-offers">Inventory and Offers</a>、<a href="https://recroom.com/roomconsumables">旧Consumables</a>)</p>
+<p class="proposal"><strong>修正案：</strong> 配置・装備・効果発動・成功確定のどこを「使用」とするかを定義する。「無限」は再使用可能という意味に限定し、同時配置数、編集、譲渡、再配布は別属性にする。所持権・残数・通貨は任意のP2Pホストだけで確定せず、信頼できる記録先で検証する構成を提案します。残数1を同時使用した場合や、成功応答を失って再送した場合に、複製や二重消費が起きないことが必要です。</p>
+<h3 id="point-4"><span class="priority high">優先度 高</span>通常の投擲と、投げ捨てによる破棄を区別する</h3>
+<p><strong>対象：HTML 193～194行の破棄動作とRec Roomの物理。</strong> 投げる速度だけで破棄を判定すると、ボール遊びや他者への受け渡しと衝突します。ResoniteのGrabbableも、掴み可否、奪えるか、サイズ変更、離した際の破棄などを個別に持ちます。(<a href="https://wiki.resonite.com/Grabbable_%28Component%29">Grabbable</a>)</p>
+<p class="proposal"><strong>修正案：</strong> 投げ捨てる体験は残し、通常の投擲と区別する条件を決める。破棄領域、補助操作、専用ジェスチャーは候補であり、方式は未決定です。配置物の削除、所持品の削除、消費残数の減算も分ける。「良い物理」は片手／両手、遠隔引き寄せ、投げた回転、二人同時の掴み、遅延、保持者の切断で評価すると具体化できます。</p>
+<h3 id="point-5"><span class="priority high">優先度 高</span>コード・ノード・ブロックの往復可能な範囲を定義する</h3>
+<p><strong>対象：HTML 205～210行の共同制作と相互変換。</strong> ResoniteLinkは外部からのデータモデル編集用であり、任意コードの相互変換や実時間シミュレーションの代替ではありません。Rec Room StudioもUnity制作とMaker Penの連携であり、任意のC#とCircuitsを無損失で往復できる根拠にはなりません。(<a href="https://github.com/Yellow-Dog-Man/ResoniteLink">ResoniteLink</a>、<a href="https://recroom.com/studio">Rec Room Studio</a>)</p>
+<p class="proposal"><strong>修正案：</strong> 共通のギミック表現を正本とし、複数の編集画面を用意する設計を検討する。対応する型、条件分岐、繰り返し、非同期処理、外部API、共有／個人処理を定義する。自由なコードを許可する範囲と視覚編集へ戻せる範囲は明示する。独自クライアントへの対応とは別に、ユーザーコードのファイル／ネットワークへのアクセス権と、実行時間・メモリの上限を設ける案も必要です。共通表現や言語の選定は提案であり、現時点の決定ではありません。</p>
+<h3 id="point-6"><span class="priority high">優先度 高</span>作者・所持者・掴んでいる人・同期担当を区別する</h3>
+<p><strong>対象：HTML 213行の権限、219行のP2P、共同編集と保存。</strong> VRChatのネットワーク所有者は同期変数を更新する担当で、作者や購入者とは異なります。途中参加者には現在の同期状態が届きますが、過去のイベントは再実行されません。clusterも共有するItemScriptと個人側のPlayerScriptを区別します。(<a href="https://creators.vrchat.com/worlds/udon/networking/ownership/">VRChatのOwnership</a>、<a href="https://creators.vrchat.com/worlds/udon/networking/late-joiners/">途中参加</a>、<a href="https://docs.cluster.mu/creatorkit/world/cluster-script/">ClusterScript</a>)</p>
+<p class="proposal"><strong>修正案：</strong> 制作中のデータ、公開版、セッション内状態、永続保存を分ける。共同編集の競合とUndo、ホスト離脱時の引き継ぎも対象にする。作者の許可、ワールドのルール、本人の接触・表示拒否を組み合わせる。独自クライアントを認めても正規の取得・編集権限は検証できますが、表示用に端末へ渡したデータの完全な秘匿は保証できません。「内部閲覧不可」は正規操作の制限と解析抑止を分けて記述すべきです。</p>
+<h3 id="point-7"><span class="priority medium">優先度 中</span>アバター変換はメニューの動作まで検証する</h3>
+<p><strong>対象：VRM・unitypackageと、円形メニューの会話要件。</strong> アクセサリー表示、表情、衣装、連続値を引き継ぐには、メニューだけでなくパラメーター、保存／同期設定、Animatorの条件を変換する必要があります。PhysBonesの掴み・固定や、VRChat固有Constraintsも見た目だけでは再現できません。(<a href="https://creators.vrchat.com/avatars/expression-menu-and-controls/">Expressions Menu</a>、<a href="https://creators.vrchat.com/common-components/physbones/">PhysBones</a>、<a href="https://creators.vrchat.com/common-components/constraints/">Constraints</a>)</p>
+<p class="proposal"><strong>修正案：</strong> VRMとunitypackageは別の取り込み経路とし、機能ごとに「再現・代替・未対応」を報告する。変換後も編集できる形を目指し、未対応データを黙って捨てない。Resoniteにも公式Unity SDKのベータがあり、リアルタイム変換に対応する一方、多くの内容は未対応と明記されています。「移行経路がない」という比較は避けます。(<a href="https://github.com/Yellow-Dog-Man/Resonite.UnitySDK">Resonite Unity SDK</a>)</p>
+<p class="correction"><strong>以前のアシスタント説明の訂正：</strong> VRChatのButtonを「押している間」とした説明は不正確でした。Buttonは値を設定した後にリセットされ、Toggleはオン／オフを保持します。これはユーザー案の誤りではありません。(<a href="https://creators.vrchat.com/avatars/expression-menu-and-controls/">操作仕様</a>)</p>
+<h3 id="point-8"><span class="priority medium">優先度 中</span>lilToon対応は、版と機能の互換性として定義する</h3>
+<p><strong>対象：カスタムシェーダー、lilToon、フォールバックの会話要件。</strong> lilToon対応の方針は維持します。ただし公式実装はUnity向けで、Godotがカスタムシェーダーを実行できることだけでは同じ見た目になりません。MIT公開と、移植工数の大小は別です。VRChatにも代替シェーダーの仕様があります。(<a href="https://lilxyzw.github.io/lilToon/">lilToon公式</a>、<a href="https://raw.githubusercontent.com/lilxyzw/lilToon/master/LICENSE">ライセンス</a>、<a href="https://creators.vrchat.com/avatars/shader-fallback-system/">VRChatのFallback</a>)</p>
+<p class="proposal"><strong>修正案：</strong> 対応版、機能、照明条件を明示し、影、輪郭線、透過、発光、複数パスを比較する。独自クライアントにはシェーダーID・版・必要機能・代替指定を伝える。作者指定の代替を優先し、非対応端末でも髪や服が欠けないことを確認する。コンパイル失敗や負荷超過時には代替へ切り替え、利用者もカスタムシェーダーを無効化できる条件を設ける案です。エンジン選定には、この移植とアバター互換の費用も含めます。</p>
+<h3 id="point-9"><span class="priority medium">優先度 中</span>ファイルを受け取れることと、内容の再現を分ける</h3>
+<p><strong>対象：ドラッグ＆ドロップ、YouTube・ニコニコ・ストリーム・RTMP／RTSPの会話要件。</strong> Resoniteにもファイル取り込みがありますが、未対応形式をRawとして保持できることは、内容を表示・編集できることとは異なります。(<a href="https://wiki.resonite.com/Supported_Formats">対応形式</a>、<a href="https://wiki.resonite.com/3D_Model_Import">3D取り込み</a>)</p>
+<p class="proposal"><strong>修正案：</strong> FBX・VRM・GLB、音楽、動画、PowerPoint、PDFの各形式に、表示・編集・変換・共有の対応表を用意する。PowerPointの静止スライドとアニメーション／埋め込み動画は別項目にする。Web動画サイトの再生、配信URLの受信、ライブ再生も経路を分け、操作可能な範囲で同期する。参加者ごとの視聴条件とライブ遅延を考慮し、ローカルプレビューと共有用アップロードを区別する。今回、各サイトの現行制限と全コーデックの端末別動作までは検証していません。</p>
+<h3 id="point-10"><span class="priority medium">優先度 中</span>容量・描画・物理・配信費を別々に測る</h3>
+<p><strong>対象：HTML 198行の1GB、201行の5万ポリゴン、P2Pと通貨案。</strong> 重複排除は保存・転送量を減らしますが、多数配置した物の物理やギミック処理まで消すわけではありません。VRChat公式もPerformance Rankを実性能の最終判断とはしていません。clusterはVRM 1.0と0.xで最適化方式が異なります。(<a href="https://creators.vrchat.com/avatars/avatar-performance-ranking-system/">Performance Rank</a>、<a href="https://help.cluster.mu/hc/ja/articles/360029465811">clusterのVRM仕様</a>)</p>
+<p class="proposal"><strong>修正案：</strong> ダウンロード量、常駐メモリ／VRAM、CPU／GPU時間、物理・ギミック時間を分けて計測する。SteamVR・フルトラは座位やトラッカー欠落も試す。原本から端末別の軽量版を作る案は、作者のプレビューと組み合わせる。1GB、5万ポリゴン、手数料5%は未検証の原案として残し、保存・配信・Relay・変換処理の費用を試算する。Godot採用やP2Pだけで軽さ・採算を保証しないことが必要です。</p>
+<h2 id="section-2">2. 四サービスから採り入れる点と、その限界</h2>
+<p>以下は公式仕様からの設計評価で、利用者満足度や性能順位ではありません。</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">サービス</th><th scope="col">利用者側の利点と制約</th><th scope="col">制作者側の利点と制約</th><th scope="col">本企画への示唆</th></tr></thead><tbody>
+<tr><td>Resonite</td><td>道具を保存し、出して使い、共有できる。公開フォルダーは統合ストアとは異なる</td><td>ProtoFluxで共同制作、外部編集、Unity SDKベータ。全データの任意変換が完成しているわけではない</td><td>制作→保存→使用を連続させ、発見・公開情報・更新管理を整える。<a href="https://wiki.resonite.com/Inventory">Inventory</a>、<a href="https://wiki.resonite.com/Public_folders">公開フォルダー</a></td></tr>
+<tr><td>Rec Room〈提供時〉</td><td>所持品・装備スロット・販売UIがつながる。Use Onlyの商品には編集制限がある</td><td>Maker Pen／Circuits／Studio、InventoryとOfferの分離。ルーム内経済と世界共通通貨は別</td><td>所持品とストアを分け、購入条件と使用方法を揃える。<a href="https://rec.net/creator/p/equipment-slots-storefronts-v2">装備・販売UI</a>、<a href="https://recroom.com/premiuminventions">Premium Inventions</a></td></tr>
+<tr><td>VRChat</td><td>アバター表現と公式Items。確認できたFAQではユーザー制作Itemsは未対応、端末別表現差がある</td><td>Unity／Udonによる制作。所有権・状態・イベントの同期設計が必要</td><td>任意のユーザー制作物を持ち歩く範囲と、作者が同期を書く範囲を明示する。<a href="https://help.vrchat.com/hc/en-us/articles/45059565610387-Items-FAQ">Items FAQ</a>、<a href="https://creators.vrchat.com/platforms/android/quest-content-limitations/">端末別制限</a></td></tr>
+<tr><td>cluster</td><td>WorldCraftで共同制作、ストアから素材を入手。アバターは受入仕様に合わせる必要がある</td><td>CCK、アプリ内スクリプト編集、CCKワールドを制作の土台にする連携。保存・更新・課金の引継ぎに制約がある</td><td>簡単な配置から高度制作へ進める一方、編集可能な範囲を表示する。<a href="https://creator.cluster.mu/products-2/">商品案内</a>、<a href="https://docs.cluster.mu/creatorkit/world/craft-base/">ベースワールド</a></td></tr>
+</tbody></table></div>
+<p><strong>比較で更新したい点は三つあります。</strong> ResoniteにはRenderiteとUnity SDKベータを追記する。Rec Roomは旧Keys／Consumablesに加えて後期Inventory／Offersを参照する。clusterは古いWorldCraft FAQだけで判断せず、CCKベースワールドの現行専用資料を優先する。連携機能があることを、全データの双方向編集ができることへ広げて解釈しないようにします。</p>
+<h2 id="section-3">3. 保存済み企画と、会話で進んだ要件の差分</h2>
+<div class="table-wrap"><table><thead><tr><th scope="col">項目</th><th scope="col">保存済み企画の状態</th><th scope="col">現在の要望として反映すべき内容</th></tr></thead><tbody>
+<tr><td>基盤</td><td>Unity使用、P2Pが断定形</td><td>エンジンは未決定。コア・サーバー・描画の分離と独自クライアントを検討</td></tr>
+<tr><td>アバター</td><td>VRMと一般的なギミック</td><td>unitypackage変換、円形メニュー、アクセサリー表示、表情。Animator完全互換は未約束</td></tr>
+<tr><td>シェーダー</td><td>カスタムシェーダーのみ</td><td>lilToonを優先、フォールバックを用意</td></tr>
+<tr><td>持ち込み・メディア</td><td>写真・動画プレイヤー中心</td><td>D&amp;Dの各ファイル形式、PowerPoint／PDF、動画サイト、ストリーム、RTMP／RTSP</td></tr>
+<tr><td>所持・公開</td><td>インベントリとストアの定義が曖昧</td><td>インベントリは所持品。ストアは公開手順を経たユーザー作品。公開必須情報を記載</td></tr>
+<tr><td>アイテム分類</td><td>スポーン消費・編集不可の旧案</td><td>消費／無限の二分類。消費時点と編集権は別に決める</td></tr>
+</tbody></table></div>
+<p>これらは今回のレビューの入力として扱いました。元企画に書き戻す際は、ユーザーが求めた機能と、実装方法の提案を分けて記載する必要があります。</p>
+<h2 id="section-4">4. 次の判断を支える確認例</h2>
+<p>以下は開発順序の確定ではなく、重要な未決定事項を小さく検証する案です。</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">確認する体験</th><th scope="col">成功条件</th></tr></thead><tbody>
+<tr><td>二人で道具を掴む・渡す・投げ捨てる</td><td>通常投擲で消えず、掴みの競合と切断後も状態が一致する</td></tr>
+<tr><td>消費品1個を使用し、応答前に切断する</td><td>再接続・再送で複製や二重減算が起きない</td></tr>
+<tr><td>同じギミックをVR→コード→VRで編集する</td><td>対応範囲で動作、参照、権限、保存状態が維持される</td></tr>
+<tr><td>商品を入手し、作者が更新・公開停止する</td><td>旧版・配置物・ライセンス・所持権が定めた方針どおりに扱われる</td></tr>
+<tr><td>アバターを変換し、別端末で表示する</td><td>表情・メニュー・揺れ物・lilToonの再現範囲と代替表示を確認できる</td></tr>
+</tbody></table></div>
+<p><strong>まず仕様を固める価値が高いのは、エンジン名より「誰の何を、どの状態で、誰が変更できるか」です。</strong> この共通部分を決めれば、描画エンジンや取り込み機能を追加しても、所有品や共同制作を壊さず拡張できるか判断できます。</p>
+<h2 id="section-5">5. 調査と検証の範囲</h2>
+<p>公式開発者資料、公式GitHub、公式ヘルプ、公式ドメイン内の共同編集Wikiを照合しました。Resonite Wikiには古い説明もあるため、描画分離は現在の公式実装を優先しています。VRChat Items FAQの更新日は2025年10月29日であり、「確認できたFAQでは」と限定しています。</p>
+<p>Rec Roomは公式告知上の終了日が2026年6月1日のため、提供時の設計として扱いました。一部の旧公式ページは直接取得できず、公式URLの検索索引本文に依存しています。実サーバー停止や最終決済の独立検証はしていません。(<a href="https://blog.recroom.com/posts/schools-out-for-rec-room">終了告知</a>)</p>
+<p>実機の操作感、FPS、IK品質、変換成功率、運営原価は未測定です。「Rec Roomの物理が良い」などはユーザーの体験として尊重し、実測済みの比較結果とはしていません。各サービスの全機能・全SDK版を網羅した互換性保証でもありません。</p>
+</main>
+<footer><a href="#top">ページ先頭へ</a>　出典は各記述の近くに掲載。</footer>
+</body>
+</html>
