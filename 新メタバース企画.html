@@ -22,7 +22,7 @@
   <h1>新メタバース企画</h1>
 </header>
 <nav aria-label="目次"><div class="inner">
-  <a href="#overview">概要</a><a href="#features">特徴</a><a href="#plan">機能・仕様</a><a href="#comparison">参考：サービス比較</a><a href="#research">参考：技術調査</a>
+  <a href="#overview">概要</a><a href="#features">特徴</a><a href="#plan">機能・仕様</a><a href="#concerns">懸念事項</a><a href="#comparison">参考：サービス比較</a><a href="#research">参考：技術調査</a>
 </div></nav>
 <main>
 <section id="overview">
@@ -130,8 +130,46 @@
   </tbody></table></div>
 </section>
 
+<section id="concerns">
+  <h2><span class="n">04</span>懸念事項</h2>
+  <p>実装方法や検証が必要な課題。対応方針は未決定。</p>
+  <div class="plan-grid">
+    <div class="box"><h3>ゲーム内編集と外部コード編集の両立</h3><ul>
+      <li>ノード・ブロック・コードで、同じオブジェクトやギミックをどう表現するか。</li>
+      <li>相互変換で動作や参照関係を失わないために、共通の保存形式と対応するコードの範囲をどう定めるか。</li>
+      <li>ゲーム内と外部から同時に編集した際の競合、変更の反映、Undoをどう扱うか。</li>
+    </ul></div>
+    <div class="box"><h3>アセットの管理方法</h3><ul>
+      <li>共通アセットの生データを1つだけ保存し、各アイテムやワールドから参照する仕組みをどう作るか。</li>
+      <li>生データと、圧縮・軽量化した端末別データをどう紐付けるか。画質と容量のバランスをどう取るか。</li>
+      <li>更新・削除で既存の作品を壊さないために、バージョンと依存関係をどう管理するか。共有データでも所有者や利用権限を区別する必要がある。</li>
+    </ul></div>
+    <div class="box"><h3>キャッシュからの無断抽出対策</h3><ul>
+      <li>アバターやワールドのキャッシュを、そのままコピーして再利用されにくくするにはどうするか。</li>
+      <li>キャッシュの暗号化、鍵の管理、配信時の権限確認をどう組み合わせるか。</li>
+      <li>表示のために端末へ渡したデータは、復号後のメモリからも取得され得る。完全な抽出防止は保証できないため、アイテム内部の閲覧禁止と、端末からの抽出対策を分けて考える。</li>
+    </ul></div>
+    <div class="box"><h3>オープンソースでの開発</h3><ul>
+      <li>プラットフォームをオープンソースで開発・公開できるか。</li>
+      <li>IK・Cloth・揺れ物などを、オープンソースの実装で揃えられるか。既存実装で不足する部分をどこまで自作するか。</li>
+      <li>見た目、フルボディトラッキングへの追従、処理負荷を確認する。依存ライブラリの改変・再配布条件と、ソース公開の範囲をどう両立するか。</li>
+    </ul></div>
+    <div class="box"><h3>ビルド時間の短縮</h3><ul>
+      <li><strong>プラットフォーム本体：</strong>コード変更のたびに全体をビルドし直さずに済むよう、通信・描画・編集機能などをどう分割するか。増分ビルドやキャッシュを活用できる構成にするにはどうするか。</li>
+      <li><strong>ワールド制作：</strong>配置やギミックの変更を、ワールド全体の再変換・再アップロードなしで確認できるようにするにはどうするか。</li>
+      <li>本体の初回ビルド、コード1件の変更、アセット1件の変更、端末別ビルドを分けて計測する。編集からVR内で確認できるまでの待ち時間を短くしたい。</li>
+    </ul></div>
+    <div class="box"><h3>軽量動作</h3><ul>
+      <li>描画、IK・Cloth・物理、ギミック実行、同期通信、アセット読み込みのどこに負荷がかかるかを計測する。</li>
+      <li>遠くの物や見えない物の描画・更新を減らし、アバターやアイテムが増えても負荷を抑えるにはどうするか。</li>
+      <li>カスタムシェーダーや持ち込みギミックの自由度を保ちながら、負荷の上限、フォールバック、利用者側の表示設定をどう設けるか。</li>
+      <li>アセット容量だけでなく、展開後のメモリ・VRAM使用量や読み込み時の停止をどう抑えるか。対象機器ごとの目標人数・フレームレートを決めて検証する。</li>
+    </ul></div>
+  </div>
+</section>
+
 <section id="comparison">
-  <h2><span class="n">04</span>参考：既存サービスの比較</h2>
+  <h2><span class="n">05</span>参考：既存サービスの比較</h2>
   <div class="table-wrap"><table class="comparison">
     <thead><tr><th scope="col">サービス</th><th scope="col">利用者側の特徴</th><th scope="col">ワールド制作者側の特徴</th><th scope="col">主な制約</th></tr></thead>
     <tbody>
@@ -145,7 +183,7 @@
 </section>
 
 <section id="services">
-  <h2><span class="n">05</span>参考：サービス別のメリット・デメリット</h2>
+  <h2><span class="n">06</span>参考：サービス別のメリット・デメリット</h2>
   <div class="service-jump"><a href="#vrchat">VRChat</a><a href="#cluster">cluster</a><a href="#resonite">Resonite</a><a href="#recroom">Rec Room</a><a href="#secondlife">Second Life</a></div>
 
   <article class="service" id="vrchat">
@@ -299,7 +337,7 @@
 </section>
 
 <section id="research">
-  <h2><span class="n">06</span>参考：技術調査</h2>
+  <h2><span class="n">07</span>参考：技術調査</h2>
   <div class="research"><h3>Second Lifeの派生ビューアー開発</h3><p>Firestormなどは公開された公式ビューアーのソースを元に、UI・描画・入力などを変更して同じサービスへ接続する。公式ビューアーはC++・OpenGLを使い、AutobuildとCMakeでビルドする。本企画では通信・データ処理と描画を分離する。別クライアントの開発は将来対応とする。</p><div class="refs"><a href="https://github.com/secondlife/viewer">Second Life公式ソース</a><a href="https://github.com/FirestormViewer/phoenix-firestorm">Firestorm公式ソース</a><a href="SecondLifeクライアント調査.html">調査詳細：E:\programing\新メタバース\SecondLifeクライアント調査.html</a></div></div>
   <div class="research"><h3>カスタムシェーダーへの対応</h3><p>カスタムシェーダーに対応するため、シェーダーのソースコードとマテリアル設定の読み込み方法を検討する。Unity用のシェーダーを別のエンジンで使う場合は、ShaderLab、複数Pass、描画状態、Unity固有の照明・組み込み値への対応が必要。変換・再コンパイル方式、Godotでの動作、Unityのコンパイル済みShaderの読み込みは未検証。互換性と実装量を確認して描画エンジンを選ぶ。</p><div class="refs"><a href="https://github.com/lilxyzw/lilToon/blob/master/Assets/lilToon/Editor/lilShaderContainerImporter.cs">lilToon公式Importer</a><a href="https://docs.unity3d.com/6000.0/Documentation/Manual/SL-Shader.html">Unity ShaderLab</a></div></div>
   <div class="research"><h3>Unityのビルド時間と分割</h3><p>ビルド時間はプロジェクト規模、開発端末、対象プラットフォームで変わる。増分ビルドは変更箇所に関係する工程を再実行する。Assembly DefinitionはC#のコンパイル単位、Addressablesはアセットの読込・配信・更新単位を分ける。</p><div class="refs"><a href="https://unity.com/blog/engine-platform/accelerating-player-builds-with-incremental-build-pipeline">Unity：増分ビルド</a><a href="https://docs.unity.com/en-us/engine/6000.5/manual/scripting/compilation-and-code-reload/script-compilation/assembly-definition-files/assembly-definitions-intro">Unity：Assembly Definition</a></div></div>
